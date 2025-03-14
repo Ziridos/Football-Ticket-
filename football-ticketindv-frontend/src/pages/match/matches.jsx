@@ -1,0 +1,171 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import MatchList from '../../components/match/MatchList';
+import MatchFilter from '../../components/match/MatchFilter';
+import Pagination from '../../components/pagination/Pagination';
+import matchApi from '../../services/matchApi';
+import Layout from '../../components/layout/Layout';
+
+const Matches = () => {
+  const [matches, setMatches] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filters, setFilters] = useState({});
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPages: 0,
+    totalElements: 0
+  });
+  const [pageSize, setPageSize] = useState(10);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    fetchMatches();
+  }, [isAuthenticated, navigate, filters, pagination.currentPage, pageSize]);
+
+  const fetchMatches = async () => {
+    try {
+      setIsLoading(true);
+      const response = await matchApi.getAllMatches({
+        ...filters,
+        page: pagination.currentPage,
+        size: pageSize
+      });
+      setMatches(response.matches);
+      setPagination({
+        currentPage: response.currentPage,
+        totalPages: response.totalPages,
+        totalElements: response.totalElements
+      });
+      setError(null);
+    } catch (error) {
+
+      const errorMessage = typeof error.response?.data === 'string' 
+        ? error.response?.data 
+        : error.response?.data?.message;
+
+      console.error(errorMessage || 'Error fetching matches:', error);
+      setError(errorMessage || 'Failed to load matches. Please try again later.');
+      if (error.message.includes('Please login')) {
+        navigate('/login');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    setPagination(prev => ({ ...prev, currentPage: 0 }));
+  };
+
+  const handleDelete = async (matchId) => {
+    try {
+      await matchApi.deleteMatch(matchId);
+      fetchMatches(); // Refresh the current page after deletion
+      setError(null);
+    } catch (error) {
+
+      const errorMessage = typeof error.response?.data === 'string' 
+        ? error.response?.data 
+        : error.response?.data?.message;
+
+      console.error('Error deleting match:', error);
+      setError(errorMessage || 'Failed to delete match. Please try again.');
+      if (error.message.includes('Please login')) {
+        navigate('/login');
+      }
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    setPagination(prev => ({ ...prev, currentPage: newPage }));
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(parseInt(event.target.value));
+    setPagination(prev => ({ ...prev, currentPage: 0 }));
+  };
+
+  if (!isAuthenticated) return null;
+
+  return (
+    <Layout>
+      <div className="container-fluid px-4 py-4" style={{ maxHeight: 'calc(100vh - 56px)', overflowY: 'auto' }}>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2 className="fs-2 fw-bold mb-0">Matches Management</h2>
+          <div>
+            <Link to="/create-match" className="btn btn-danger me-2">
+              Create New Match
+            </Link>
+            <Link to="/" className="btn btn-outline-secondary">
+              Back to Home
+            </Link>
+          </div>
+        </div>
+
+        <MatchFilter onFilterChange={handleFilterChange} />
+
+        {error && (
+          <div className="alert alert-danger mb-4" role="alert">
+            {error}
+          </div>
+        )}
+
+        <div className="card shadow-sm">
+          <div className="card-body">
+            <div className="d-flex justify-content-end mb-3">
+              <select
+                className="form-select w-auto"
+                value={pageSize}
+                onChange={handlePageSizeChange}
+                disabled={isLoading}
+              >
+                <option value="5">5 per page</option>
+                <option value="10">10 per page</option>
+                <option value="20">20 per page</option>
+                <option value="50">50 per page</option>
+              </select>
+            </div>
+
+            {isLoading ? (
+              <div className="d-flex justify-content-center py-5">
+                <div className="spinner-border text-danger" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : matches.length > 0 ? (
+              <>
+                <MatchList matches={matches} onDelete={handleDelete} />
+                
+                {pagination.totalPages > 1 && (
+                  <Pagination
+                    currentPage={pagination.currentPage}
+                    totalPages={pagination.totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                )}
+                
+                <div className="text-muted text-center mt-3">
+                  Showing {matches.length} of {pagination.totalElements} matches
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-5">
+                <p className="text-muted">No matches found</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
+export default Matches;

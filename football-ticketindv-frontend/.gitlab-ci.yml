@@ -1,0 +1,225 @@
+stages:
+  - build
+  - e2e_test
+  - test
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  
+  - |
+    if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+      Write-Host "Installing Node.js..."
+      $nodejsUrl = "https://nodejs.org/dist/v18.17.0/node-v18.17.0-x64.msi"
+      $installerPath = "$env:TEMP\nodejs_installer.msi"
+      Invoke-WebRequest -Uri $nodejsUrl -OutFile $installerPath
+      Start-Process msiexec.exe -Wait -ArgumentList "/i `"$installerPath`" /quiet"
+      $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    }
+
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+
+lighthouse_test:
+  stage: test
+  script:
+    # PowerShell compatible installation of Chrome and Lighthouse
+    - |
+      Write-Host "Installing Chrome and Lighthouse..."
+      # Install Chrome if not present
+      if (-not (Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe")) {
+        $chromeUrl = "https://dl.google.com/chrome/install/stable/chrome_installer.exe"
+        $installerPath = "$env:TEMP\chrome_installer.exe"
+        Invoke-WebRequest -Uri $chromeUrl -OutFile $installerPath
+        Start-Process -FilePath $installerPath -Args "/silent /install" -Wait
+      }
+      # Install Lighthouse globally
+      npm install -g lighthouse chrome-launcher
+    - npm ci
+    # Run Lighthouse tests
+    - |
+      # Start the application
+      npm run preview &
+      Start-Sleep -Seconds 10
+      # Run Lighthouse tests
+      node performance-test.js
+  artifacts:
+    paths:
+      - performance-results/
+    reports:
+      junit: performance-results/*.json
+    expire_in: 1 week
+  allow_failure: true
+
+cypress_e2e:
+  stage: e2e_test
+  script:
+    - npm ci
+    # Kill any existing processes with logging
+    - |
+      Write-Host "Cleaning up existing processes..."
+      Get-Process -Name "node" -ErrorAction SilentlyContinue | ForEach-Object {
+        Write-Host "Stopping process ID: $($_.Id)"
+        Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
+      }
+      Write-Host "Process cleanup complete"
+    # Start the dev server with better logging
+    - |
+      Write-Host "Starting dev server..."
+      $devServer = Start-Process npm -ArgumentList "run", "dev" -PassThru -NoNewWindow
+      Write-Host "Dev server started with PID: $($devServer.Id)"
+      
+      # Check if process is actually running
+      $processCheck = Get-Process -Id $devServer.Id -ErrorAction SilentlyContinue
+      if ($processCheck) {
+          Write-Host "Process verified as running"
+      } else {
+          Write-Error "Process failed to start properly"
+          exit 1
+      }
+      
+      Write-Host "Waiting 15 seconds for server startup..."
+      Start-Sleep -Seconds 15
+    # Server check with detailed logging
+    - |
+      $maxAttempts = 3
+      $attempt = 1
+      $success = $false
+      
+      while ($attempt -le $maxAttempts) {
+          try {
+              Write-Host "Attempt $attempt of $maxAttempts: Checking server at http://localhost:5173"
+              $response = Invoke-WebRequest -Uri "http://localhost:5173" -Method Head -TimeoutSec 10 -ErrorAction Stop
+              Write-Host "Server responded with status code: $($response.StatusCode)"
+              $success = $true
+              break
+          } catch {
+              Write-Host "Attempt $attempt failed with error: $($_.Exception.Message)"
+              if ($attempt -eq $maxAttempts) {
+                  Write-Host "All attempts failed. Server logs:"
+                  Write-Host "Process status: $(Get-Process -Id $devServer.Id -ErrorAction SilentlyContinue)"
+                  Write-Error "Server failed to start after $maxAttempts attempts"
+                  if ($devServer) {
+                      Write-Host "Stopping dev server process"
+                      Stop-Process -Id $devServer.Id -Force -ErrorAction SilentlyContinue
+                  }
+                  exit 1
+              }
+              $attempt++
+              Write-Host "Waiting 5 seconds before next attempt..."
+              Start-Sleep -Seconds 5
+          }
+      }
+    # Run Cypress tests with logging
+    - |
+      if ($success) {
+          Write-Host "Starting Cypress tests..."
+          npx cypress run --browser chrome --config baseUrl=http://localhost:5173
+          $cypressResult = $LASTEXITCODE
+          
+          Write-Host "Stopping dev server process"
+          if ($devServer) {
+              Stop-Process -Id $devServer.Id -Force -ErrorAction SilentlyContinue
+          }
+          
+          if ($cypressResult -ne 0) {
+              Write-Error "Cypress tests failed with exit code: $cypressResult"
+              exit $cypressResult
+          }
+      }
+  artifacts:
+    when: always
+    paths:
+      - cypress/screenshots/**/*
+    expire_in: 1 week
+  allow_failure: false
+
+
+
+deploy_staging:
+  stage: deploy
+  script:
+    # Stop and remove existing container with proper error handling
+    - |
+      Write-Host "Stopping and removing existing container..."
+      docker ps -q --filter "name=footballticket-frontend" | ForEach-Object { 
+        Write-Host "Stopping container $_"
+        docker stop $_ 
+      }
+      docker ps -aq --filter "name=footballticket-frontend" | ForEach-Object { 
+        Write-Host "Removing container $_"
+        docker rm $_ 
+      }
+    
+    # Build with debug output
+    - |
+      Write-Host "Building Docker image..."
+      docker build --progress=plain --no-cache -t footballticket-frontend:latest .
+      if ($LASTEXITCODE -ne 0) {
+        Write-Error "Docker build failed"
+        exit 1
+      }
+    
+    # Run container with improved error handling
+    - |
+      Write-Host "Starting container..."
+      $containerId = docker run -d --name footballticket-frontend `
+        --network footballticket_network `
+        -p 3000:80 `
+        --restart unless-stopped `
+        footballticket-frontend:latest
+
+      if (-not $containerId) {
+        Write-Error "Failed to start container"
+        exit 1
+      }
+
+      Write-Host "Container started with ID: $containerId"
+
+      # Wait for container to be healthy
+      $maxAttempts = 5
+      $attempt = 1
+      $success = $false
+      
+      do {
+        Start-Sleep -Seconds 10
+        $status = docker inspect --format '{{.State.Status}}' $containerId
+        $health = docker ps --filter "name=footballticket-frontend" --format "{{.Status}}"
+        Write-Host "Attempt $attempt of $maxAttempts - Container status: $status, Health: $health"
+        
+        if ($status -eq "running") {
+          Write-Host "Container is running successfully"
+          $success = $true
+          break
+        }
+        
+        if ($status -eq "exited") {
+          Write-Host "Container exited unexpectedly. Logs:"
+          docker logs $containerId
+          Write-Error "Container failed to start properly"
+          exit 1
+        }
+        
+        $attempt++
+      } while ($attempt -le $maxAttempts)
+
+      if (-not $success) {
+        Write-Host "Container logs:"
+        docker logs $containerId
+        Write-Error "Container failed to stabilize after $maxAttempts attempts"
+        exit 1
+      }
+  only:
+    - main
+  environment:
+    name: staging

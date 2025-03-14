@@ -1,0 +1,749 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class DiagramGeneratorRunner
+
+interface TicketValidationService
+
+class SaveBoxUseCaseImpl
+
+class UpdateClubUseCaseImpl
+
+interface TicketCreationService
+
+class CompetitionConverterImpl
+
+class BlockConverterImpl
+
+class Seat
+
+class TicketDTO
+
+class MatchServiceImpl
+
+interface DeleteTicketUseCase
+
+interface UpdateClubUseCase
+
+interface DeleteStadiumUseCase
+
+interface GetBoxPricingRuleUseCase
+
+interface GetAllTicketsUserUseCase
+
+interface CreateUserUseCase
+
+class CreateUserUseCaseImpl
+
+interface MatchService
+
+class ClubController
+
+interface ClubService
+
+interface GetCompetitionUseCase
+
+class RegisterUserUseCaseImpl
+
+class BoxValidatorImpl
+
+class ApplyPricingRulesUseCaseImpl
+
+interface CompetitionConverter
+
+interface CreateMatchUseCase
+
+interface GetAllStadiumsUseCase
+
+interface UserConverterI
+
+interface MatchUpdateService
+
+class StadiumServiceImpl
+
+class ClubConverterImpl
+
+class DeleteClubUseCaseImpl
+
+class Role
+
+class BoxController
+
+class WebSocketController
+
+class UpdateStadiumUseCaseImpl
+
+interface StripeServiceI
+
+class UserController
+
+class UpdateBoxPricingRuleUseCaseImpl
+
+class CreateMatchUseCaseImpl
+
+class Block
+
+class BoxPricingRuleValidatorImpl
+
+class StadiumConverterImpl
+
+interface GetTicketSalesStatisticsUseCase
+
+interface DeleteUserUseCase
+
+class AuthController
+
+interface ApplyPricingRulesUseCase
+
+interface UpdateMatchUseCase
+
+class CompetitionValidatorImpl
+
+interface ClubValidator
+
+interface BlockService
+
+interface CreateTicketUseCase
+
+interface CreateClubUseCase
+
+class MatchDTO
+
+interface RegisterUserUseCase
+
+class GetCompetitionUseCaseImpl
+
+class DeleteUserUseCaseImpl
+
+interface ClubConverter
+
+class DeleteLogoUseCaseImpl
+
+class Ticket
+
+interface GetTicketUseCase
+
+class UpdateTicketUseCaseImpl
+
+interface CompetitionService
+
+class TicketValidationServiceImpl
+
+class BoxDTO
+
+class TicketCreationServiceImpl
+
+class GetMatchSpecificBlocksUseCaseImpl
+
+class GetTicketSalesStatisticsUseCaseImpl
+
+class GetAllStadiumsUseCaseImpl
+
+interface GetSeatAvailabilityUseCase
+
+class GetBlocksByStadiumUseCaseImpl
+
+class BoxPricingRuleController
+
+interface BoxPricingRuleValidator
+
+class DeleteMatchUseCaseImpl
+
+class TicketController
+
+class BoxConverterImpl
+
+class CompetitionControllerAdvice
+
+class SeatConverterImpl
+
+class TicketStatisticsController
+
+class ClubServiceImpl
+
+class CreateBoxPricingRuleUseCaseImpl
+
+class CreateTicketUseCaseImpl
+
+class GetBoxesByStadiumUseCaseImpl
+
+class Club
+
+class ClubValidatorImpl
+
+class GetClubUseCaseImpl
+
+class LoginUseCaseImpl
+
+class UpdateBoxPriceUseCaseImpl
+
+class SeatSelectionMessage
+
+class UpdateMatchSpecificPriceUseCaseImpl
+
+interface BoxService
+
+class GetAllMatchesUseCaseImpl
+
+interface CreateStadiumUseCase
+
+interface StadiumValidator
+
+class GetMatchUseCaseImpl
+
+interface SeatConverter
+
+class GetAllClubsUseCaseImpl
+
+interface BlockConverter
+
+interface BoxPricingRuleConverter
+
+class CreateClubUseCaseImpl
+
+class UpdateMatchUseCaseImpl
+
+class BlockDTO
+
+interface UpdateStadiumUseCase
+
+interface LoginUseCase
+
+interface GetAllUsersUseCase
+
+interface CreateCompetitionUseCase
+
+class BoxPricingRule
+
+interface GetMatchSpecificBoxesUseCase
+
+class DeleteBoxPricingRuleUseCaseImpl
+
+class UserValidatorImpl
+
+interface MatchValidator
+
+class UserServiceImpl
+
+interface GetMatchSpecificBlocksUseCase
+
+interface GetBoxesByStadiumUseCase
+
+class EmailService
+
+interface GetClubUseCase
+
+interface UpdateMatchSpecificPriceUseCase
+
+class CompetitionController
+
+class Match
+
+class CompetitionServiceImpl
+
+interface UpdateCompetitionUseCase
+
+class SelectedSeatDTO
+
+class UploadLogoUseCaseImpl
+
+interface GetMatchUseCase
+
+interface UpdateUserUseCase
+
+class MatchUpdateServiceImpl
+
+class DeleteTicketUseCaseImpl
+
+class GetStadiumUseCaseImpl
+
+class StadiumValidatorImpl
+
+class GetBoxPricingRuleUseCaseImpl
+
+class GetAllCompetitionsUseCaseImpl
+
+class BlockServiceImpl
+
+interface DeleteMatchUseCase
+
+interface GetStadiumUseCase
+
+class GetMatchSpecificBoxesUseCaseImpl
+
+class CreateCompetitionUseCaseImpl
+
+class GetAllTicketsUserUseCaseImpl
+
+class GetSeatAvailabilityUseCaseImpl
+
+interface StadiumConverter
+
+class UserDTO
+
+class MatchValidatorImpl
+
+class SeatServiceImpl
+
+interface BoxConverter
+
+class UpdateCompetitionUseCaseImpl
+
+class SeatDTO
+
+class DeleteCompetitionUseCaseImpl
+
+interface DeleteCompetitionUseCase
+
+interface SaveBlockUseCase
+
+interface GetBlocksByStadiumUseCase
+
+class CreateStadiumUseCaseImpl
+
+class UserConverter
+
+class MockEmailService
+
+class StripeService
+
+class TicketMapperImpl
+
+interface UpdateBoxPriceUseCase
+
+class MatchController
+
+interface DeleteClubUseCase
+
+class GetAllUsersUseCaseImpl
+
+class BlockController
+
+interface BoxValidator
+
+class GetUserUseCaseImpl
+
+interface StadiumService
+
+class StadiumController
+
+interface UpdateBoxPricingRuleUseCase
+
+class SaveBlockUseCaseImpl
+
+interface DeleteLogoUseCase
+
+interface TicketMapper
+
+class PaymentController
+
+interface UploadLogoUseCase
+
+class GetBoxPricingRulesForStadiumUseCaseImpl
+
+interface CreateBoxPricingRuleUseCase
+
+class TicketSalesStatistics
+
+interface BlockValidator
+
+interface GetAllClubsUseCase
+
+class MatchConverterImpl
+
+class DeleteStadiumUseCaseImpl
+
+class BoxServiceImpl
+
+interface SelectedSeatsService
+
+interface MatchConverter
+
+interface GetAllMatchesUseCase
+
+interface GetUserUseCase
+
+class SelectedSeatsServiceImpl
+
+interface SeatService
+
+class Competition
+
+interface UpdateTicketUseCase
+
+interface EmailServiceI
+
+interface UserValidator
+
+interface GetAllCompetitionsUseCase
+
+class MockStripeService
+
+interface SaveBoxUseCase
+
+class GetTicketUseCaseImpl
+
+class UpdateUserUseCaseImpl
+
+interface CompetitionValidator
+
+class User
+
+interface UserService
+
+interface GetBoxPricingRulesForStadiumUseCase
+
+class Box
+
+interface DeleteBoxPricingRuleUseCase
+
+class BlockValidatorImpl
+
+class BoxPricingRuleConverterImpl
+
+class Stadium
+
+class ClassDiagramGenerator
+
+CommandLineRunner <|.. DiagramGeneratorRunner
+SaveBoxUseCase <|.. SaveBoxUseCaseImpl
+SaveBoxUseCaseImpl --> BoxRepository
+SaveBoxUseCaseImpl --> BoxConverter
+SaveBoxUseCaseImpl --> BoxValidator
+UpdateClubUseCase <|.. UpdateClubUseCaseImpl
+UpdateClubUseCaseImpl --> ClubRepository
+UpdateClubUseCaseImpl --> ClubConverter
+UpdateClubUseCaseImpl --> ClubValidator
+CompetitionConverter <|.. CompetitionConverterImpl
+BlockConverter <|.. BlockConverterImpl
+TicketDTO --> UserDTO
+TicketDTO --> MatchDTO
+MatchService <|.. MatchServiceImpl
+MatchServiceImpl --> MatchRepository
+CreateUserUseCase <|.. CreateUserUseCaseImpl
+CreateUserUseCaseImpl --> UserService
+CreateUserUseCaseImpl --> UserValidator
+CreateUserUseCaseImpl --> UserConverter
+ClubController --> CreateClubUseCase
+ClubController --> GetAllClubsUseCase
+ClubController --> GetClubUseCase
+ClubController --> UpdateClubUseCase
+ClubController --> DeleteClubUseCase
+ClubController --> UploadLogoUseCase
+ClubController --> DeleteLogoUseCase
+RegisterUserUseCase <|.. RegisterUserUseCaseImpl
+RegisterUserUseCaseImpl --> UserService
+RegisterUserUseCaseImpl --> UserValidator
+RegisterUserUseCaseImpl --> UserConverter
+BoxValidator <|.. BoxValidatorImpl
+BoxValidatorImpl --> BoxRepository
+BoxValidatorImpl --> StadiumValidator
+ApplyPricingRulesUseCase <|.. ApplyPricingRulesUseCaseImpl
+ApplyPricingRulesUseCaseImpl --> BoxPricingRuleRepository
+ApplyPricingRulesUseCaseImpl --> UpdateMatchSpecificPriceUseCase
+ApplyPricingRulesUseCaseImpl --> MatchService
+ApplyPricingRulesUseCaseImpl --> BoxService
+StadiumService <|.. StadiumServiceImpl
+StadiumServiceImpl --> StadiumRepository
+ClubConverter <|.. ClubConverterImpl
+ClubConverterImpl --> StadiumService
+DeleteClubUseCase <|.. DeleteClubUseCaseImpl
+DeleteClubUseCaseImpl --> ClubRepository
+DeleteClubUseCaseImpl --> ClubValidator
+Enum <|-- Role
+Role --> Role
+Role --> Role
+BoxController --> GetBoxesByStadiumUseCase
+BoxController --> SaveBoxUseCase
+BoxController --> UpdateBoxPriceUseCase
+BoxController --> GetMatchSpecificBoxesUseCase
+WebSocketController --> SelectedSeatsService
+UpdateStadiumUseCase <|.. UpdateStadiumUseCaseImpl
+UpdateStadiumUseCaseImpl --> StadiumRepository
+UpdateStadiumUseCaseImpl --> StadiumValidator
+UpdateStadiumUseCaseImpl --> StadiumConverter
+UserController --> GetUserUseCase
+UserController --> GetAllUsersUseCase
+UserController --> DeleteUserUseCase
+UserController --> CreateUserUseCase
+UserController --> UpdateUserUseCase
+UserController --> RegisterUserUseCase
+UpdateBoxPricingRuleUseCase <|.. UpdateBoxPricingRuleUseCaseImpl
+UpdateBoxPricingRuleUseCaseImpl --> BoxPricingRuleRepository
+UpdateBoxPricingRuleUseCaseImpl --> BoxPricingRuleConverter
+UpdateBoxPricingRuleUseCaseImpl --> BoxPricingRuleValidator
+CreateMatchUseCase <|.. CreateMatchUseCaseImpl
+CreateMatchUseCaseImpl --> MatchRepository
+CreateMatchUseCaseImpl --> SeatRepository
+CreateMatchUseCaseImpl --> MatchValidator
+CreateMatchUseCaseImpl --> MatchConverter
+BoxPricingRuleValidator <|.. BoxPricingRuleValidatorImpl
+BoxPricingRuleValidatorImpl --> BoxPricingRuleRepository
+BoxPricingRuleValidatorImpl --> StadiumService
+StadiumConverter <|.. StadiumConverterImpl
+AuthController --> LoginUseCase
+AuthController --> JwtUtils
+CompetitionValidator <|.. CompetitionValidatorImpl
+CompetitionValidatorImpl --> CompetitionRepository
+MatchDTO --> ClubEntity
+MatchDTO --> ClubEntity
+MatchDTO --> CompetitionEntity
+GetCompetitionUseCase <|.. GetCompetitionUseCaseImpl
+GetCompetitionUseCaseImpl --> CompetitionRepository
+GetCompetitionUseCaseImpl --> CompetitionConverter
+GetCompetitionUseCaseImpl --> CompetitionValidator
+DeleteUserUseCase <|.. DeleteUserUseCaseImpl
+DeleteUserUseCaseImpl --> UserRepository
+DeleteLogoUseCase <|.. DeleteLogoUseCaseImpl
+DeleteLogoUseCaseImpl --> ClubService
+DeleteLogoUseCaseImpl --> ClubValidator
+Ticket --> UserEntity
+Ticket --> MatchEntity
+UpdateTicketUseCase <|.. UpdateTicketUseCaseImpl
+UpdateTicketUseCaseImpl --> TicketRepository
+UpdateTicketUseCaseImpl --> TicketValidationService
+UpdateTicketUseCaseImpl --> TicketMapper
+UpdateTicketUseCaseImpl --> MatchUpdateService
+TicketValidationService <|.. TicketValidationServiceImpl
+TicketValidationServiceImpl --> UserValidator
+TicketValidationServiceImpl --> MatchValidator
+TicketValidationServiceImpl --> TicketRepository
+TicketValidationServiceImpl --> MatchService
+TicketCreationService <|.. TicketCreationServiceImpl
+TicketCreationServiceImpl --> UserService
+TicketCreationServiceImpl --> MatchService
+TicketCreationServiceImpl --> TicketRepository
+TicketCreationServiceImpl --> TicketMapper
+GetMatchSpecificBlocksUseCase <|.. GetMatchSpecificBlocksUseCaseImpl
+GetMatchSpecificBlocksUseCaseImpl --> BlockRepository
+GetMatchSpecificBlocksUseCaseImpl --> BlockConverter
+GetMatchSpecificBlocksUseCaseImpl --> MatchService
+GetTicketSalesStatisticsUseCase <|.. GetTicketSalesStatisticsUseCaseImpl
+GetTicketSalesStatisticsUseCaseImpl --> TicketRepository
+GetAllStadiumsUseCase <|.. GetAllStadiumsUseCaseImpl
+GetAllStadiumsUseCaseImpl --> StadiumRepository
+GetAllStadiumsUseCaseImpl --> StadiumConverter
+GetBlocksByStadiumUseCase <|.. GetBlocksByStadiumUseCaseImpl
+GetBlocksByStadiumUseCaseImpl --> BlockRepository
+GetBlocksByStadiumUseCaseImpl --> BlockConverter
+BoxPricingRuleController --> CreateBoxPricingRuleUseCase
+BoxPricingRuleController --> GetBoxPricingRulesForStadiumUseCase
+BoxPricingRuleController --> DeleteBoxPricingRuleUseCase
+BoxPricingRuleController --> GetBoxPricingRuleUseCase
+BoxPricingRuleController --> UpdateBoxPricingRuleUseCase
+DeleteMatchUseCase <|.. DeleteMatchUseCaseImpl
+DeleteMatchUseCaseImpl --> MatchRepository
+DeleteMatchUseCaseImpl --> MatchValidator
+TicketController --> CreateTicketUseCase
+TicketController --> GetTicketUseCase
+TicketController --> UpdateTicketUseCase
+TicketController --> DeleteTicketUseCase
+TicketController --> GetAllTicketsUserUseCase
+BoxConverter <|.. BoxConverterImpl
+SeatConverter <|.. SeatConverterImpl
+SeatConverterImpl --> BlockConverter
+SeatConverterImpl --> BoxConverter
+TicketStatisticsController --> GetTicketSalesStatisticsUseCase
+ClubService <|.. ClubServiceImpl
+ClubServiceImpl --> ClubRepository
+CreateBoxPricingRuleUseCase <|.. CreateBoxPricingRuleUseCaseImpl
+CreateBoxPricingRuleUseCaseImpl --> BoxPricingRuleRepository
+CreateBoxPricingRuleUseCaseImpl --> BoxPricingRuleConverter
+CreateBoxPricingRuleUseCaseImpl --> BoxPricingRuleValidator
+CreateTicketUseCase <|.. CreateTicketUseCaseImpl
+CreateTicketUseCaseImpl --> TicketValidationService
+CreateTicketUseCaseImpl --> TicketCreationService
+CreateTicketUseCaseImpl --> MatchUpdateService
+CreateTicketUseCaseImpl --> ApplyPricingRulesUseCase
+CreateTicketUseCaseImpl --> TicketMapper
+CreateTicketUseCaseImpl --> MatchRepository
+GetBoxesByStadiumUseCase <|.. GetBoxesByStadiumUseCaseImpl
+GetBoxesByStadiumUseCaseImpl --> BoxRepository
+GetBoxesByStadiumUseCaseImpl --> BoxConverter
+Club --> StadiumEntity
+ClubValidator <|.. ClubValidatorImpl
+ClubValidatorImpl --> ClubService
+ClubValidatorImpl --> StadiumValidator
+GetClubUseCase <|.. GetClubUseCaseImpl
+GetClubUseCaseImpl --> ClubRepository
+GetClubUseCaseImpl --> ClubConverter
+GetClubUseCaseImpl --> ClubValidator
+LoginUseCase <|.. LoginUseCaseImpl
+LoginUseCaseImpl --> UserRepository
+UpdateBoxPriceUseCase <|.. UpdateBoxPriceUseCaseImpl
+UpdateBoxPriceUseCaseImpl --> BoxRepository
+UpdateBoxPriceUseCaseImpl --> BoxConverter
+UpdateBoxPriceUseCaseImpl --> BoxValidator
+UpdateMatchSpecificPriceUseCase <|.. UpdateMatchSpecificPriceUseCaseImpl
+UpdateMatchSpecificPriceUseCaseImpl --> MatchRepository
+UpdateMatchSpecificPriceUseCaseImpl --> MatchService
+UpdateMatchSpecificPriceUseCaseImpl --> BoxRepository
+UpdateMatchSpecificPriceUseCaseImpl --> SeatRepository
+GetAllMatchesUseCase <|.. GetAllMatchesUseCaseImpl
+GetAllMatchesUseCaseImpl --> MatchRepository
+GetAllMatchesUseCaseImpl --> MatchConverter
+GetMatchUseCase <|.. GetMatchUseCaseImpl
+GetMatchUseCaseImpl --> MatchRepository
+GetMatchUseCaseImpl --> MatchValidator
+GetMatchUseCaseImpl --> MatchConverter
+GetAllClubsUseCase <|.. GetAllClubsUseCaseImpl
+GetAllClubsUseCaseImpl --> ClubRepository
+GetAllClubsUseCaseImpl --> ClubConverter
+CreateClubUseCase <|.. CreateClubUseCaseImpl
+CreateClubUseCaseImpl --> ClubRepository
+CreateClubUseCaseImpl --> ClubConverter
+CreateClubUseCaseImpl --> ClubValidator
+UpdateMatchUseCase <|.. UpdateMatchUseCaseImpl
+UpdateMatchUseCaseImpl --> MatchRepository
+UpdateMatchUseCaseImpl --> MatchValidator
+UpdateMatchUseCaseImpl --> MatchConverter
+DeleteBoxPricingRuleUseCase <|.. DeleteBoxPricingRuleUseCaseImpl
+DeleteBoxPricingRuleUseCaseImpl --> BoxPricingRuleRepository
+DeleteBoxPricingRuleUseCaseImpl --> BoxPricingRuleValidator
+UserValidator <|.. UserValidatorImpl
+UserValidatorImpl --> UserRepository
+UserService <|.. UserServiceImpl
+UserServiceImpl --> UserRepository
+EmailServiceI <|.. EmailService
+CompetitionController --> CreateCompetitionUseCase
+CompetitionController --> GetAllCompetitionsUseCase
+CompetitionController --> GetCompetitionUseCase
+CompetitionController --> UpdateCompetitionUseCase
+CompetitionController --> DeleteCompetitionUseCase
+Match --> ClubEntity
+Match --> ClubEntity
+Match --> CompetitionEntity
+CompetitionService <|.. CompetitionServiceImpl
+CompetitionServiceImpl --> CompetitionRepository
+UploadLogoUseCase <|.. UploadLogoUseCaseImpl
+UploadLogoUseCaseImpl --> ClubService
+UploadLogoUseCaseImpl --> ClubValidator
+MatchUpdateService <|.. MatchUpdateServiceImpl
+MatchUpdateServiceImpl --> MatchRepository
+MatchUpdateServiceImpl --> SeatService
+DeleteTicketUseCase <|.. DeleteTicketUseCaseImpl
+DeleteTicketUseCaseImpl --> TicketRepository
+DeleteTicketUseCaseImpl --> TicketValidationService
+GetStadiumUseCase <|.. GetStadiumUseCaseImpl
+GetStadiumUseCaseImpl --> StadiumRepository
+GetStadiumUseCaseImpl --> StadiumValidator
+GetStadiumUseCaseImpl --> StadiumConverter
+StadiumValidator <|.. StadiumValidatorImpl
+StadiumValidatorImpl --> StadiumRepository
+GetBoxPricingRuleUseCase <|.. GetBoxPricingRuleUseCaseImpl
+GetBoxPricingRuleUseCaseImpl --> BoxPricingRuleRepository
+GetBoxPricingRuleUseCaseImpl --> BoxPricingRuleConverter
+GetBoxPricingRuleUseCaseImpl --> BoxPricingRuleValidator
+GetAllCompetitionsUseCase <|.. GetAllCompetitionsUseCaseImpl
+GetAllCompetitionsUseCaseImpl --> CompetitionRepository
+GetAllCompetitionsUseCaseImpl --> CompetitionConverter
+BlockService <|.. BlockServiceImpl
+BlockServiceImpl --> BlockRepository
+GetMatchSpecificBoxesUseCase <|.. GetMatchSpecificBoxesUseCaseImpl
+GetMatchSpecificBoxesUseCaseImpl --> BoxRepository
+GetMatchSpecificBoxesUseCaseImpl --> BoxConverter
+GetMatchSpecificBoxesUseCaseImpl --> MatchService
+CreateCompetitionUseCase <|.. CreateCompetitionUseCaseImpl
+CreateCompetitionUseCaseImpl --> CompetitionRepository
+CreateCompetitionUseCaseImpl --> CompetitionConverter
+CreateCompetitionUseCaseImpl --> CompetitionValidator
+GetAllTicketsUserUseCase <|.. GetAllTicketsUserUseCaseImpl
+GetAllTicketsUserUseCaseImpl --> TicketRepository
+GetAllTicketsUserUseCaseImpl --> UserValidator
+GetAllTicketsUserUseCaseImpl --> TicketMapper
+GetSeatAvailabilityUseCase <|.. GetSeatAvailabilityUseCaseImpl
+GetSeatAvailabilityUseCaseImpl --> MatchService
+GetSeatAvailabilityUseCaseImpl --> SeatService
+GetSeatAvailabilityUseCaseImpl --> SeatConverter
+MatchValidator <|.. MatchValidatorImpl
+MatchValidatorImpl --> MatchRepository
+MatchValidatorImpl --> ClubValidator
+MatchValidatorImpl --> CompetitionValidator
+SeatService <|.. SeatServiceImpl
+SeatServiceImpl --> SeatRepository
+SeatServiceImpl --> BoxService
+SeatServiceImpl --> BlockService
+UpdateCompetitionUseCase <|.. UpdateCompetitionUseCaseImpl
+UpdateCompetitionUseCaseImpl --> CompetitionRepository
+UpdateCompetitionUseCaseImpl --> CompetitionConverter
+UpdateCompetitionUseCaseImpl --> CompetitionValidator
+SeatDTO --> BlockDTO
+SeatDTO --> BoxDTO
+DeleteCompetitionUseCase <|.. DeleteCompetitionUseCaseImpl
+DeleteCompetitionUseCaseImpl --> CompetitionRepository
+DeleteCompetitionUseCaseImpl --> CompetitionValidator
+CreateStadiumUseCase <|.. CreateStadiumUseCaseImpl
+CreateStadiumUseCaseImpl --> StadiumRepository
+CreateStadiumUseCaseImpl --> StadiumValidator
+CreateStadiumUseCaseImpl --> StadiumConverter
+UserConverterI <|.. UserConverter
+EmailServiceI <|.. MockEmailService
+StripeServiceI <|.. StripeService
+StripeService --> CreateTicketUseCase
+StripeService --> MatchRepository
+StripeService --> UserRepository
+StripeService --> EmailServiceI
+TicketMapper <|.. TicketMapperImpl
+TicketMapperImpl --> UserValidator
+TicketMapperImpl --> MatchValidator
+TicketMapperImpl --> UserService
+TicketMapperImpl --> MatchService
+TicketMapperImpl --> SeatRepository
+TicketMapperImpl --> UserConverterI
+TicketMapperImpl --> MatchConverter
+TicketMapperImpl --> SeatConverter
+MatchController --> CreateMatchUseCase
+MatchController --> GetAllMatchesUseCase
+MatchController --> GetMatchUseCase
+MatchController --> DeleteMatchUseCase
+MatchController --> UpdateMatchUseCase
+MatchController --> GetSeatAvailabilityUseCase
+GetAllUsersUseCase <|.. GetAllUsersUseCaseImpl
+GetAllUsersUseCaseImpl --> UserRepository
+GetAllUsersUseCaseImpl --> UserConverter
+BlockController --> SaveBlockUseCase
+BlockController --> GetBlocksByStadiumUseCase
+BlockController --> GetMatchSpecificBlocksUseCase
+GetUserUseCase <|.. GetUserUseCaseImpl
+GetUserUseCaseImpl --> UserRepository
+GetUserUseCaseImpl --> UserConverter
+StadiumController --> CreateStadiumUseCase
+StadiumController --> GetAllStadiumsUseCase
+StadiumController --> GetStadiumUseCase
+StadiumController --> UpdateStadiumUseCase
+StadiumController --> DeleteStadiumUseCase
+SaveBlockUseCase <|.. SaveBlockUseCaseImpl
+SaveBlockUseCaseImpl --> BlockRepository
+SaveBlockUseCaseImpl --> BlockConverter
+SaveBlockUseCaseImpl --> BlockValidator
+SaveBlockUseCaseImpl --> BoxService
+PaymentController --> StripeServiceI
+GetBoxPricingRulesForStadiumUseCase <|.. GetBoxPricingRulesForStadiumUseCaseImpl
+GetBoxPricingRulesForStadiumUseCaseImpl --> BoxPricingRuleRepository
+GetBoxPricingRulesForStadiumUseCaseImpl --> BoxPricingRuleConverter
+MatchConverter <|.. MatchConverterImpl
+MatchConverterImpl --> ClubService
+MatchConverterImpl --> CompetitionService
+DeleteStadiumUseCase <|.. DeleteStadiumUseCaseImpl
+DeleteStadiumUseCaseImpl --> StadiumRepository
+DeleteStadiumUseCaseImpl --> StadiumValidator
+BoxService <|.. BoxServiceImpl
+BoxServiceImpl --> BoxRepository
+SelectedSeatsService <|.. SelectedSeatsServiceImpl
+StripeServiceI <|.. MockStripeService
+GetTicketUseCase <|.. GetTicketUseCaseImpl
+GetTicketUseCaseImpl --> TicketRepository
+GetTicketUseCaseImpl --> TicketValidationService
+GetTicketUseCaseImpl --> TicketMapper
+UpdateUserUseCase <|.. UpdateUserUseCaseImpl
+UpdateUserUseCaseImpl --> UserRepository
+UpdateUserUseCaseImpl --> UserConverter
+UpdateUserUseCaseImpl --> UserValidator
+User --> Role
+BlockValidator <|.. BlockValidatorImpl
+BlockValidatorImpl --> BlockRepository
+BlockValidatorImpl --> BoxValidator
+BoxPricingRuleConverter <|.. BoxPricingRuleConverterImpl
+BoxPricingRuleConverterImpl --> StadiumRepository
+
+@enduml

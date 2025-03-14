@@ -1,0 +1,38 @@
+variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+stages:
+    - build
+    - test
+    - sonarqube-check
+    - deploy
+
+build:
+    stage: build
+    script:
+        - ./gradlew assemble
+    artifacts:
+        paths:
+            - build/libs/*.jar
+
+test:
+    stage: test
+    script:
+        - ./gradlew test
+
+deploy_to_local:
+    stage: deploy
+    script:
+        - docker stop footballticket-backend-staging; if ($LASTEXITCODE -eq 1) { exit 0 }
+        - docker rm footballticket-backend-staging; if ($LASTEXITCODE -eq 1) { exit 0 }
+        - docker build -t football-ticketindv .
+        - docker run -d --name footballticket-backend-staging --net=footballticket_network -p 8091:8080 --env spring_profiles_active=staging football-ticketindv
+    only:
+        - main
+    dependencies:
+        - build
+
+sonarqube-check:
+    stage: sonarqube-check
+    script:
+        - ./gradlew test jacocoTestReport sonar
